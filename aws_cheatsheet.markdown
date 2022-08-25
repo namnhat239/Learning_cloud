@@ -45,7 +45,38 @@
 - Describe about Route Table: `aws ec2 describe-route-tables`
 - Describe about Network ACls: `aws ec2 describe-network-acls`
 ### 2. Pivoting
+- Describe all VPC Peering Connections: `aws ec2 describe-vpc-peering-connections`
+- Describe about Subnet of the specified VPC: `aws ec2 describe-subnets --filters "Name=vpc-id, values=VPCID"`
+- Describe about Route Table of the specified Subnet: `aws ec2 describe-route-tables --filters "Name=vpc-id, values=VPCID"`
+- Describe about Network ACL of the specified VPC: `aws ec2 describe-network-acls --filters "Name=vpc-id, values=VPCID"`
+- Describe about EC2 instances in the specified VPC: `aws ec2 describe-instances --filters "Name=vpc-id, values=VPCID"`
+- Describe about EC2 Instances in specified Subnet: `aws ec2 describe-instances --filters "Name=subnet-id, values=subnetID`
 
+## III. AWS EC2
+### 1. 
+- Describes the information about all Intances: `aws ec2 describe-instances`
+- Des the information about specified instances: `aws ec2 describe-instances --instance-ids instance-ID`
+- Des the information about UserData Attribute of sepcified Instance: `aws ec2 describe-instance-attribute --attribute userData --instance-id instance-id`
+- Des the information about IAM instance profile associations: `aws ec2 describe-iam-instance-profile-associations`
+### 2. GET Credentials
+- Get information about attached IAM Role Profile: `aws sts get-caller-identity`
+- AWS Metadata:  `http://169.254.169.254/lastest/meta-data/`
+- AWS User-data: `http://169.254.169.254/lastest/user-data/`
+- More: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html
+
+## IV. AWS EBS
+### 1. Enumeration
+- Des the information about EBS volumes: `aws ec2 describe-volumes`
+- Des the information all the available EBS snapshots: `aws ec2 describe-snapshots --owner-ids self`
+### 2. Data Exfiltration: `Level 4 flaws-cloud`
+- Step: Create Snapshot from EC2 Instance -> Create Volume from snapshot -> Attached volume
+- Des about ec2-instances: `aws ec2 describe-instances`
+- Des the information about EBS volumes: `aws ec2 describe-volumes`
+- Create a snapshot of the specified volume: `aws ec2 create-snapshot --volume-id VolumeID --description "content"`
+- Des about all the available EBS snapshots: `aws ec2 describe-snapshots`
+- Create a volume from snapshots: `aws ec2 create-volume --snapshot-id SnapshotID --availability-zone AZ`
+- Attached specified volume to the ec2-instance: `aws ec2 attach-volume --volume-id VolumeID --instance-id InstanceID --device /dev/sdfd`
+- Mount Volume on EC2 file system: `sudo mount /dev/sdfd /new-dir`
 ---
 # PART III: Testing for AWS
 
