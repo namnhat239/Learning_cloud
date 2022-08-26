@@ -77,6 +77,28 @@
 - Create a volume from snapshots: `aws ec2 create-volume --snapshot-id SnapshotID --availability-zone AZ`
 - Attached specified volume to the ec2-instance: `aws ec2 attach-volume --volume-id VolumeID --instance-id InstanceID --device /dev/sdfd`
 - Mount Volume on EC2 file system: `sudo mount /dev/sdfd /new-dir`
+
+## V. AWS Lambda
+### 1. Enumeration `Level 6 flaws-cloud`
+**Lambda**
+- List of all the lambda functions: `aws lambda list-functions`
+- Retrieves the Information about the specified lambda function: `aws lambda get-function --function-name function-name`
+- Retrieves the policy about the specified lambda function: `aws lambda get-policy --function-name function-name`
+- Retrieves the event source mapping Information about the specified lambda fnction: `aws lambda list-event-source-mappings --function-name function-name`
+- List of all the layers (dependencies) in aws account: `aws lambda list-layers`
+- Retrives the full informarion about the specified layer name: `aws lambda get-layer-version --layer-name Layername --version-number VersioNumber`
+
+**API Gateway**
+- List of all the Rest APIs: `aws apigateway get-rest-apis`
+- Get the information about specified API: `aws apigateway get-rest-api --rest-api-id APIId`
+- Lists information about a collection of resources: `aws apigateway get-resources --rest-api-id APIId`
+- Get information about the specified resource: `aws apigateway get-resources --rest-api-id APIId --resource-id ResourceID`
+- Get the method information for the specified resource: `aws apigateway get-method --rest-api-id ApiID --resource-id ResourceID --http-method Method`
+- List of all stages for a REST API: `aws apigateway get-stages --rest-api-id ApiId`
+- Get the information about specified API's stage: `aws apigateway get-stage --rest-api-id ApiId --stage-name StateName`
+- List of all the API keys: `aws apigateway get-api-keys --include-values`
+- Get the information about a sepcified API key: `aws apigateway get-api-key --api-key ApiKey`
+
 ---
 # PART III: Testing for AWS
 
