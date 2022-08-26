@@ -99,6 +99,16 @@
 - List of all the API keys: `aws apigateway get-api-keys --include-values`
 - Get the information about a sepcified API key: `aws apigateway get-api-key --api-key ApiKey`
 
+## VI. AWS S3
+### 1. Enumeration
+- List of all the buckets in the aws account: `aws s3api list-buckets`, `aws s3 ls`
+- Get the information about specified bukcet acls: `aws s3api get-bucket-acl --bucket bucketname`
+- Get the information about specified bucket policy: `aws s3api get-bucket-policy --bucket bucketname`
+- Retrieves the Public Access Block congiuration for an AWS S3: `aws s3api get-public-access-block --bucket bucketname`
+- List of all the Objects in specified bucket: `aws s3api list-objects --bucket bucketname`, `aws s3 ls s3://bucketname`
+- Get the acls infor about specified object: `aws s3api get-object-acl --bucket bucketname --key object-name`
+- Retrieves the Public Access Block configuration for an S3 bucket: `aws s3api get-object --bucket bucketname --key object-name download-file-location`, `aws s3 cp s3:/bucketname/object download-file-localtion`, `aws s3 sync s3://bucketname location`
+- Time Based URL - resign: `aws s3 presign s3://bucketname/object --exprires-in 604800`
 ---
 # PART III: Testing for AWS
 
