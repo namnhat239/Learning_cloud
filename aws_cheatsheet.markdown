@@ -109,6 +109,29 @@
 - Get the acls infor about specified object: `aws s3api get-object-acl --bucket bucketname --key object-name`
 - Retrieves the Public Access Block configuration for an S3 bucket: `aws s3api get-object --bucket bucketname --key object-name download-file-location`, `aws s3 cp s3:/bucketname/object download-file-localtion`, `aws s3 sync s3://bucketname location`
 - Time Based URL - resign: `aws s3 presign s3://bucketname/object --exprires-in 604800`
+
+## VII. Secret Manager.
+### 1.Enumeration
+- List of the all secrets that are stored by SM: `aws secretsmanager list-secrets`
+- Describes about specified secret: `aws secretsmanager describe-secret --secret-id SecretId`
+- Get the resource-based policy that is attached to the specified Secret: `aws secretsmanager get-resource-policy --secret-id SecretId`
+- Lists of the all keys available in key management server (KMS): `aws kms list-keys`
+- Describes about specified key: `aws kms describe-key --key-id KeyId`
+- Lists of the policies attached to specified key: `aws kms list-key-polcies --key-id KeyId`
+- Get full information about a policy: `aws kms get-key-policy --policy-name --key-id KeyId`
+### 2. Credential Access:
+**Secret Manager**
+- Lists all managed polcicied that are attached to the specified IAM user: `aws iam list-attached-policies --user-name user-name`
+- Retrieves information about specified version of specifed managed policy: `aws iam get-policy-version --policy-arn policyARN --version-id versionId`
+- List of the all secrets that are stored by SM: `aws secretsmanager list-secrets`
+- Describes about specified secret: `aws secretsmanager describe-secret --secret-id SecretId`
+- Get the resource-based policy that is attached to the specified Secret: `aws secretsmanager get-resource-policy --secret-id SecretId`
+- Retrive the specified values: `aws secretsmanager get-secret-value --secret-id SecretID`
+**Key management Server (KMS)**
+- Describes about specified key: `aws kms describe-key --key-id KeyId`
+- Lists of the policies attached to specified key: `aws kms list-key-polcies --key-id KeyId`
+- Get full information about a policy: `aws kms get-key-policy --policy-name --key-id KeyId`
+- Decrypt the encrypted secret by kms key: `aws kms decrypt --ciphertext-blob file://ExampleEncryptedFile --output text --query Plaintext`
 ---
 # PART III: Testing for AWS
 
