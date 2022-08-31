@@ -55,9 +55,9 @@
 ## III. AWS EC2
 ### 1. 
 - Describes the information about all Intances: `aws ec2 describe-instances`
-- Des the information about specified instances: `aws ec2 describe-instances --instance-ids instance-ID`
-- Des the information about UserData Attribute of sepcified Instance: `aws ec2 describe-instance-attribute --attribute userData --instance-id instance-id`
-- Des the information about IAM instance profile associations: `aws ec2 describe-iam-instance-profile-associations`
+- Describes the information about specified instances: `aws ec2 describe-instances --instance-ids instance-ID`
+- Describethe information about UserData Attribute of sepcified Instance: `aws ec2 describe-instance-attribute --attribute userData --instance-id instance-id`
+- Describethe information about IAM instance profile associations: `aws ec2 describe-iam-instance-profile-associations`
 ### 2. GET Credentials
 - Get information about attached IAM Role Profile: `aws sts get-caller-identity`
 - AWS Metadata:  `http://169.254.169.254/lastest/meta-data/`
@@ -66,14 +66,14 @@
 
 ## IV. AWS EBS
 ### 1. Enumeration
-- Des the information about EBS volumes: `aws ec2 describe-volumes`
-- Des the information all the available EBS snapshots: `aws ec2 describe-snapshots --owner-ids self`
+- Describes the information about EBS volumes: `aws ec2 describe-volumes`
+- Describes the information all the available EBS snapshots: `aws ec2 describe-snapshots --owner-ids self`
 ### 2. Data Exfiltration: `Level 4 flaws-cloud`
 - Step: Create Snapshot from EC2 Instance -> Create Volume from snapshot -> Attached volume
-- Des about ec2-instances: `aws ec2 describe-instances`
-- Des the information about EBS volumes: `aws ec2 describe-volumes`
+- Describes about ec2-instances: `aws ec2 describe-instances`
+- Describes the information about EBS volumes: `aws ec2 describe-volumes`
 - Create a snapshot of the specified volume: `aws ec2 create-snapshot --volume-id VolumeID --description "content"`
-- Des about all the available EBS snapshots: `aws ec2 describe-snapshots`
+- Describes about all the available EBS snapshots: `aws ec2 describe-snapshots`
 - Create a volume from snapshots: `aws ec2 create-volume --snapshot-id SnapshotID --availability-zone AZ`
 - Attached specified volume to the ec2-instance: `aws ec2 attach-volume --volume-id VolumeID --instance-id InstanceID --device /dev/sdfd`
 - Mount Volume on EC2 file system: `sudo mount /dev/sdfd /new-dir`
@@ -132,6 +132,41 @@
 - Lists of the policies attached to specified key: `aws kms list-key-polcies --key-id KeyId`
 - Get full information about a policy: `aws kms get-key-policy --policy-name --key-id KeyId`
 - Decrypt the encrypted secret by kms key: `aws kms decrypt --ciphertext-blob file://ExampleEncryptedFile --output text --query Plaintext`
+
+## VIII. AWS RDS
+### 1.Enumeration
+- Describes about all the repositories in the cointainer registry: `aws ecr describe-repositories`
+- Get the infor about repository policy: `aws ecr get-repository-policy --repository-name RepositoryName`
+- Lists of all images in the specified repository: `aws ecr list-images --repository-name RepositoryName`
+- Describe the infor about a container image: `aws ecr describe-images --repository-name RepositoryName --image-ids imageTag=imageTag`
+- Lists all ECS Clusters: `aws ecs list-clusters`
+- Describe information about specified cluster: `aws ecs decribe-clusters --cluster ClusterName`
+- Lists all services in the specified cluster: `aws ecs listservices --cluster ClusterName`
+- Describe the information about a specified service: `aws ecs describe-services --cluster ClusterName --services ServiceName`
+- Lists all tasks in the specified cluster: `aws ecs list-tasks --cluster clusterName`
+- Describe the information abuout specified task: `aws ecs describe-tasks --cluster clusterName --tasks TaskArn`
+- Lists all containers in the specified cluster: `aws ecs list-container-instances --cluster clusterName`   
+- Lists all EKS Clusters: `aws ecs list-clusters`
+- Describe information about specified cluster: `aws EKS decribe-clusters --cluster ClusterName`
+- List of all node groups in a specified cluster: `aws eks list-nodegroups --cluster ClusterName`
+- Describe the information about a specified node group in a cluster: `aws eks describe-nodegroup --cluster-name Cluster-Name --nodegroup-name Node-Group`
+- Lists of all target in a specified cluster: `aws eks list-fargate-profiles --cluster-name cluster-Name`
+- Describe the information about a specified fargate in a cluster: `aws eks list-fargate-profiles --cluster-name cluster-Name --fargate-profile-name Profile-Name`
+- Describes the information about the clusters in RDS: `aws rds describe-db-clusters`
+- Describes the information about the database instances in RDS: `aws rds describe-db-instances`
+- Des the infor about the subnet groups in RDS: `aws rds describe-db-subnet-groups`
+- Des the infor about the database security groups in RDS: `aws rds describe-db-security-groups`
+- Des the infor about the database proxies in RDS: `aws rds describe-db-proxies`
+### 2. Data Exfiltration
+- Des the information about the DB instances in RDS: `aws rds describe-db-instances`
+- Des the information about the specified security group: `aws ec2 describe-security-groups --group-ids GroupID`
+- Password Baseds Authentication: Connect to RDS mysql instance using password: `mysql -h hostname -u username -P port -p password`
+- IAM Based Authentication(Token): Get the role information attached to the ec2-instance: `aws sts get-caller-identity`
+- List all [manages policies]() that attached to the specified role:`aws iam list-attached-role-policies --role-name roleName`
+- Retrieves information about specified version of specifed managed policy: `aws iam get-policy-version --policy-arn policyARN --version-id versionId`
+- Get the database intances connection temporary token from the RDS endpoint: `aws rds generate-db-auth-token --hostname HostName --port Port --username Username --region Region`
+- Conenct to the RDS mysql instance using temporary token: `mysql -h hostname -u username -P port --enable-cleartext-plugin --useer=mydbuser --password=$TOKEN`
+
 ---
 # PART III: Testing for AWS
 
